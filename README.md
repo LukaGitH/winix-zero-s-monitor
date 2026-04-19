@@ -36,6 +36,8 @@ For monitoring, connect the adapter ground to the purifier debug-header ground a
 
 ![Debug header pinout](docs/debug-header-pinout.svg)
 
+PCB photo source: EEVblog forum thread, [Hacking an air purifier - how to approach triggering button pushes on its PCB](https://www.eevblog.com/forum/beginners/hacking-an-air-purifier-129300-how-to-approach-triggering-button-pushes-on-its-p/).
+
 Pin order from top to bottom:
 
 - Pin 1: `5V`
