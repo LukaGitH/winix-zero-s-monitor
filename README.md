@@ -1,19 +1,43 @@
-# Winix Zero-S Monitor
+# Winix Zero-S Monitor v27
 
-RX-only UART monitor for reverse-engineering a Winix Zero-S air purifier debug/status stream.
+RX-only UART monitor for observing the debug/status stream from a Winix Zero-S air purifier.
 
-## Current App
+This repository intentionally publishes only the current v27 source and the matching Windows executable.
 
-- Source: `winix_monitor_v27.py`
-- Windows executable: `dist/WinixMonitor_v27.exe`
-- UART default: `38400 8N1`
+## Files
+
+- `winix_monitor_v27.py` - Python source for the monitor.
+- `dist/WinixMonitor_v27.exe` - Windows executable build of v27.
+
+## What It Shows
+
+- Power state
+- Fan mode / speed
+- Particle filtered value
+- AQ LED state
+- Ambient light filtered and raw values
+- Plasma state
+- Motor feedback raw value
+- Estimated motor feedback in m3/h
+- Last frame ID, frame count, and checksum errors
+
+## Connection
+
+- UART: `38400 8N1`
 - Frame format: `F0 ID LEN ... CHK`
+- Checksum: 8-bit sum of the previous bytes in the frame
 
-## Notes
+Version 27 treats the debug header as RX/status-only. Earlier TX command experiments did not control the purifier, so transmit controls were removed.
 
-Serial TX commands on the debug header were tested and did not control the purifier. Version 27 removes the experimental TX controls and treats the debug header as RX/status-only.
+## Run the Windows App
 
-Known decoded values and protocol notes are in `winix_findings.md`.
+Download or open:
+
+```text
+dist/WinixMonitor_v27.exe
+```
+
+Select the serial port, keep the baud rate at `38400`, and click `Connect`.
 
 ## Run From Source
 
@@ -21,9 +45,16 @@ Known decoded values and protocol notes are in `winix_findings.md`.
 python winix_monitor_v27.py
 ```
 
-Required Python packages:
+Python dependencies:
 
-- pyserial
-- matplotlib
-- tkinter
+- `pyserial`
+- `matplotlib`
+- `tkinter`
 
+Install the Python packages with:
+
+```bash
+python -m pip install pyserial matplotlib
+```
+
+`tkinter` is included with many Python installs. On Linux it may need to be installed through the system package manager.

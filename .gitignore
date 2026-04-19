@@ -4,6 +4,10 @@ __pycache__/
 build/
 *.spec
 *.Zone.Identifier
+*:Zone.Identifier
+analyzer/
+p1.png
+winix_findings.md
 
 # Keep only the current app version in the public repo.
 winix_monitor_v*.py
