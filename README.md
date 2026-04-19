@@ -11,6 +11,8 @@ This repository intentionally publishes only the current v27 source and the matc
 
 ## What It Shows
 
+![Winix Zero-S Monitor app screenshot](docs/app-screenshot.png)
+
 - Power state
 - Fan mode / speed
 - Particle filtered value
@@ -32,7 +34,20 @@ Version 27 treats the debug header as RX/status-only. Earlier TX command experim
 
 For monitoring, connect the adapter ground to the purifier debug-header ground and the adapter RX input to the debug-header TX/status output. Do not connect mains voltage or RS-232 serial hardware to the TTL debug header.
 
-Debug-header photo: to be added.
+![Debug header pinout](docs/debug-header-pinout.svg)
+
+Pin order from top to bottom:
+
+- Pin 1: `5V`
+- Pin 2: `GND`
+- Pin 3: `RX`
+- Pin 4: `TX`
+
+Minimal monitor connection:
+
+- Purifier `GND` to USB-to-serial `GND`
+- Purifier `TX` to USB-to-serial `RX`
+- Leave purifier `5V` unconnected for normal monitoring
 
 ## Run the Windows App
 
