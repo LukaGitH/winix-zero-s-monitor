@@ -23,11 +23,16 @@ This repository intentionally publishes only the current v27 source and the matc
 
 ## Connection
 
+- Hardware: USB-to-serial TTL adapter connected to the purifier debug header.
 - UART: `38400 8N1`
 - Frame format: `F0 ID LEN ... CHK`
 - Checksum: 8-bit sum of the previous bytes in the frame
 
 Version 27 treats the debug header as RX/status-only. Earlier TX command experiments did not control the purifier, so transmit controls were removed.
+
+For monitoring, connect the adapter ground to the purifier debug-header ground and the adapter RX input to the debug-header TX/status output. Do not connect mains voltage or RS-232 serial hardware to the TTL debug header.
+
+Debug-header photo: to be added.
 
 ## Run the Windows App
 
