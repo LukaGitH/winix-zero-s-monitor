@@ -1,4 +1,4 @@
-# Winix Zero-S Monitor v27
+# Winix Zero-S Purifier Monitor
 
 RX-only UART monitor for observing the debug/status stream from a Winix Zero-S air purifier.
 
