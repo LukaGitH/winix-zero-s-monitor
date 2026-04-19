@@ -1,0 +1,10 @@
+__pycache__/
+.codex
+*.pyc
+build/
+*.spec
+*.Zone.Identifier
+
+# Keep only the current app version in the public repo.
+winix_monitor_v*.py
+!winix_monitor_v27.py
