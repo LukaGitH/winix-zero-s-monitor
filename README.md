@@ -80,3 +80,7 @@ python -m pip install pyserial matplotlib
 ```
 
 `tkinter` is included with many Python installs. On Linux it may need to be installed through the system package manager.
+
+## Build
+
+Windows executable build notes are in `BUILD.md`.
