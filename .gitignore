@@ -11,4 +11,4 @@ winix_findings.md
 
 # Keep only the current app version in the public repo.
 winix_monitor_v*.py
-!winix_monitor_v27.py
+!winix_monitor_v28.py

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Winix Zero-S UART Monitor v27 (RX only)
+Winix Zero-S UART Monitor v28 (RX only)
 
 Known section:
 - Power
@@ -29,7 +29,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Deque, Dict, Optional, List
 
-APP_NAME = "Winix Zero-S Monitor v27"
+APP_NAME = "Winix Zero-S Monitor v28"
 
 BG = "#121417"
 PANEL_BG = "#1b1f24"
@@ -274,12 +274,12 @@ class SerialReader(threading.Thread):
         self.port = port
         self.baudrate = baudrate
         self.out_queue = out_queue
-        self._stop = threading.Event()
+        self._stop_event = threading.Event()
         self._ser = None
         self._parser = WinixProtocolParser()
 
     def stop(self) -> None:
-        self._stop.set()
+        self._stop_event.set()
         try:
             if self._ser is not None:
                 self._ser.close()
@@ -298,10 +298,12 @@ class SerialReader(threading.Thread):
             return
 
         self.out_queue.put(("status", f"Connected to {self.port} @ {self.baudrate}"))
-        while not self._stop.is_set():
+        while not self._stop_event.is_set():
             try:
                 data = self._ser.read(512)
             except Exception as exc:
+                if self._stop_event.is_set():
+                    return
                 self.out_queue.put(("error", f"Serial read failed: {exc}"))
                 return
 
@@ -486,8 +488,8 @@ class App:
         top.pack(fill="x")
 
         ttk.Label(top, text="Port").grid(row=0, column=0, sticky="w")
-        port_combo = ttk.Combobox(top, textvariable=self.port_var, width=24, values=self._list_ports())
-        port_combo.grid(row=0, column=1, padx=4, sticky="w")
+        self.port_combo = ttk.Combobox(top, textvariable=self.port_var, width=24, values=self._list_ports())
+        self.port_combo.grid(row=0, column=1, padx=4, sticky="w")
 
         ttk.Label(top, text="Baud").grid(row=0, column=2, sticky="w")
         ttk.Entry(top, textvariable=self.baud_var, width=10).grid(row=0, column=3, padx=4, sticky="w")
@@ -627,12 +629,7 @@ class App:
 
     def _refresh_ports(self) -> None:
         ports = self._list_ports()
-        try:
-            top = self.root.winfo_children()[0]
-            combo = next(w for w in top.winfo_children() if isinstance(w, ttk.Combobox))
-            combo["values"] = ports
-        except Exception:
-            pass
+        self.port_combo["values"] = ports
         if self.port_var.get() not in ports and ports:
             self.port_var.set(ports[0])
 
@@ -656,9 +653,19 @@ class App:
 
     def disconnect(self) -> None:
         if self.reader is not None:
-            self.reader.stop()
+            reader = self.reader
             self.reader = None
+            reader.stop()
+            reader.join(timeout=0.5)
+            self._drain_queue()
         self.status_var.set("Disconnected")
+
+    def _drain_queue(self) -> None:
+        try:
+            while True:
+                self.queue.get_nowait()
+        except queue.Empty:
+            pass
 
     def _poll_queue(self) -> None:
         try:
