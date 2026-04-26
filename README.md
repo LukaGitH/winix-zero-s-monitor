@@ -2,12 +2,12 @@
 
 RX-only UART monitor for observing the debug/status stream from a Winix Zero-S air purifier.
 
-This repository intentionally publishes only the current v28 source. The Windows executable is still the previous v27 build.
+This repository intentionally publishes only the current v28 source and Windows executable.
 
 ## Files
 
 - `winix_monitor_v28.py` - Python source for the monitor.
-- `dist/WinixMonitor_v27.exe` - Windows executable build of v27.
+- `dist/WinixMonitor_v28.exe` - Windows executable build of v28.
 
 ## What It Shows
 
@@ -56,7 +56,7 @@ Minimal monitor connection:
 Download or open:
 
 ```text
-dist/WinixMonitor_v27.exe
+dist/WinixMonitor_v28.exe
 ```
 
 Select the serial port, keep the baud rate at `38400`, and click `Connect`.
